@@ -13,6 +13,7 @@ class Config:
     BOT_TOKEN = ""
     CMD_SUFFIX = ""
     DATABASE_URL = ""
+    DATABASE_NAME = "mltb"
     DEFAULT_UPLOAD = "rc"
     EQUAL_SPLITS = False
     EXCLUDED_EXTENSIONS = ""
@@ -32,7 +33,7 @@ class Config:
     HYBRID_LEECH = False
     HYDRA_IP = ""
     HYDRA_API_KEY = ""
-    NAME_SUBSTITUTE = ""
+    NAME_SUBSTITUTE = r""
     OWNER_ID = 0
     QUEUE_ALL = 0
     QUEUE_DOWNLOAD = 0
