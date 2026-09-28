@@ -15,6 +15,7 @@ from ..telegram_helper.button_build import ButtonMaker
 from .telegraph_helper import telegraph
 from .help_messages import (
     YT_HELP_DICT,
+    GDL_HELP_DICT,
     MIRROR_HELP_DICT,
     CLONE_HELP_DICT,
 )
@@ -51,6 +52,7 @@ def _build_command_usage(help_dict, command_key):
 def create_help_buttons():
     _build_command_usage(MIRROR_HELP_DICT, "mirror")
     _build_command_usage(YT_HELP_DICT, "yt")
+    _build_command_usage(GDL_HELP_DICT, "gdl")
     _build_command_usage(CLONE_HELP_DICT, "clone")
 
 
@@ -66,7 +68,7 @@ def bt_selection_buttons(id_):
             "Select Files", f"{Config.BASE_URL}/app/files?gid={id_}&pin={pin}"
         )
     buttons.data_button("Done Selecting", f"sel done {gid} {id_}")
-    buttons.data_button("Cancel", f"sel cancel {gid}")
+    buttons.data_button("Close", "sel close")
     return buttons.build_menu(2)
 
 
@@ -113,6 +115,8 @@ def arg_parser(items, arg_base):
         "-med",
         "-ut",
         "-bt",
+        "-ad",
+        "-tb",
     }
 
     while i < total:
@@ -138,6 +142,8 @@ def arg_parser(items, arg_base):
                     "-med",
                     "-ut",
                     "-bt",
+                    "-ad",
+                    "-tb",
                 ]
             ):
                 arg_base[part] = True

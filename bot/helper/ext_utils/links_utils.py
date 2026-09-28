@@ -2,7 +2,11 @@ from re import match as re_match
 
 
 def is_magnet(url: str):
-    return bool(re_match(r"^magnet:\?.*xt=urn:(btih|btmh):([a-zA-Z0-9]{32,40}|[a-z2-7]{32}).*", url))
+    return bool(
+        re_match(
+            r"^magnet:\?.*xt=urn:(btih|btmh):([a-zA-Z0-9]{32,40}|[a-z2-7]{32}).*", url
+        )
+    )
 
 
 def is_url(url: str):
@@ -15,7 +19,11 @@ def is_url(url: str):
 
 
 def is_gdrive_link(url: str):
-    return "drive.google.com" in url or "drive.usercontent.google.com" in url
+    return (
+        "drive.google.com" in url
+        or "drive.usercontent.google.com" in url
+        or "docs.google.com" in url
+    )
 
 
 def is_telegram_link(url: str):
@@ -34,7 +42,7 @@ def is_share_link(url: str):
 def is_rclone_path(path: str):
     return bool(
         re_match(
-            r"^(mrcc:)?(?!(magnet:|mtp:|sa:|tp:))(?![- ])[a-zA-Z0-9_\. -]+(?<! ):(?!.*\/\/).*$|^rcl$",
+            r"^(mt:)?(?!(magnet:|sa:|tp:))(?![- ])[a-zA-Z0-9_\. -]+(?<! ):(?!.*\/\/).*$|^rcl$",
             path,
         )
     )
@@ -43,7 +51,16 @@ def is_rclone_path(path: str):
 def is_gdrive_id(id_: str):
     return bool(
         re_match(
-            r"^(tp:|sa:|mtp:)?(?:[a-zA-Z0-9-_]{33}|[a-zA-Z0-9_-]{19})$|^gdl$|^(tp:|mtp:)?root$",
+            r"^(tp:|sa:|mt:)?(?:[a-zA-Z0-9-_]{33}|[a-zA-Z0-9_-]{19})$|^gdl$|^(tp:|mt:)?root$",
             id_,
+        )
+    )
+
+
+def is_tldv_link(url: str):
+    return bool(
+        re_match(
+            r"^https?://(?:app\.)?tldv\.io/(?:app/meetings|watch)/[a-zA-Z0-9]+",
+            url,
         )
     )

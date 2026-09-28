@@ -1,6 +1,7 @@
 from psutil import cpu_percent, virtual_memory, disk_usage
 from time import time
-from asyncio import gather, iscoroutinefunction
+from asyncio import gather
+from inspect import iscoroutinefunction
 
 from .. import (
     task_dict_lock,
@@ -182,3 +183,5 @@ async def status_pages(_, query):
         button = ButtonMaker()
         button.data_button("Back", f"status {data[1]} ref")
         await edit_message(message, msg, button.build_menu())
+    else:
+        await delete_message(query.message)

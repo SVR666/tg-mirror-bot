@@ -2,6 +2,7 @@ from asyncio import gather
 from json import loads
 from secrets import token_urlsafe
 from aiofiles.os import remove
+from pyrogram.types import RichTextUrl
 
 from .. import LOGGER, task_dict, task_dict_lock, bot_loop
 from ..helper.ext_utils.bot_utils import (
@@ -60,7 +61,16 @@ class Clone(TaskListener):
         self.is_clone = True
 
     async def new_event(self):
-        text = self.message.text.split("\n")
+        if self.message.rich_message:
+            items = self.message.rich_message.blocks[0].text
+            text = items[0].text + (
+                items[1] + items[2].text + items[3]
+                if len(items) > 3 and isinstance(items[2], RichTextUrl)
+                else items[1]
+            )
+        else:
+            text = self.message.text
+        text = text.split("\n")
         input_list = text[0].split(" ")
 
         args = {
@@ -166,9 +176,9 @@ class Clone(TaskListener):
             )
             LOGGER.info(f"Cloning Done: {self.name}")
         elif is_rclone_path(self.link):
-            if self.link.startswith("mrcc:"):
-                self.link = self.link.replace("mrcc:", "", 1)
-                self.up_dest = self.up_dest.replace("mrcc:", "", 1)
+            if self.link.startswith("mt:"):
+                self.link = self.link.replace("mt:", "", 1)
+                self.up_dest = self.up_dest.replace("mt:", "", 1)
                 config_path = f"rclone/{self.user_id}.conf"
             else:
                 config_path = "rclone.conf"

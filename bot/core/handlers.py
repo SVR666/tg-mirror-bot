@@ -66,7 +66,7 @@ def add_handlers():
         CallbackQueryHandler(cancel_all_update, filters=regex("^canall"))
     )
     TgClient.bot.add_handler(
-        CallbackQueryHandler(cancel_multi, filters=regex("^stopm"))
+        CallbackQueryHandler(cancel_updates, filters=regex("^cancel"))
     )
     TgClient.bot.add_handler(
         MessageHandler(
@@ -105,6 +105,9 @@ def add_handlers():
     )
     TgClient.bot.add_handler(
         CallbackQueryHandler(confirm_selection, filters=regex("^sel"))
+    )
+    TgClient.bot.add_handler(
+        CallbackQueryHandler(remove_from_queue_callback, filters=regex("^force"))
     )
     TgClient.bot.add_handler(
         MessageHandler(
@@ -309,6 +312,20 @@ def add_handlers():
         MessageHandler(
             ytdl_leech,
             filters=command(BotCommands.YtdlLeechCommand, case_sensitive=True)
+            & CustomFilters.authorized,
+        )
+    )
+    TgClient.bot.add_handler(
+        MessageHandler(
+            gallery_dl,
+            filters=command(BotCommands.GallerydlCommand, case_sensitive=True)
+            & CustomFilters.authorized,
+        )
+    )
+    TgClient.bot.add_handler(
+        MessageHandler(
+            gallery_dl_leech,
+            filters=command(BotCommands.GallerydlLeechCommand, case_sensitive=True)
             & CustomFilters.authorized,
         )
     )
