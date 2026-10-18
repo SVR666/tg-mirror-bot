@@ -38,6 +38,8 @@ async def start(_, message):
         # Preserve the requesting user, chat, message ID and client. Do not send
         # a command as the bot (which would change task ownership/permissions).
         mirror_message = copy(message)
+        # Kurigram's copy/serialization hooks strip the client used by bound replies.
+        mirror_message._client = getattr(message, "_client", None) or _
         mirror_message.text = command
         mirror_message.command = command[1:].split()
         mirror_message.entities = None

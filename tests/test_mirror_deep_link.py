@@ -104,6 +104,35 @@ def test_deep_link_preserves_requester_and_full_magnet(services):
     assert message.entities == ["original entity"]
 
 
+def test_copied_message_retains_client_for_bound_replies(services):
+    class BoundMessage:
+        # Kurigram's serialization hooks omit _client; copy.copy uses these too.
+        def __getstate__(self):
+            return {key: value for key, value in self.__dict__.items() if key != "_client"}
+
+        def __setstate__(self, state):
+            self.__dict__ = state
+
+        async def reply_text(self, text):
+            return await self._client.send_message(self.chat.id, text)
+
+    bound_client = SimpleNamespace(send_message=AsyncMock())
+    message = BoundMessage()
+    message.__dict__.update(vars(_message("mirror_697866")))
+    message._client = bound_client
+
+    async def mirror_with_reply(client, request):
+        assert request._client is message._client
+        await request.reply_text("Processing...")
+
+    services.mirror.side_effect = mirror_with_reply
+    asyncio.run(services.start(bound_client, message))
+
+    bound_client.send_message.assert_awaited_once_with(42, "Processing...")
+    assert message._client is bound_client
+    assert message.text == "/start mirror_697866"
+
+
 def test_unauthorized_deep_link_never_fetches_or_downloads(services):
     services.CustomFilters.authorized.return_value = False
     asyncio.run(services.start(object(), _message("mirror_697866")))
