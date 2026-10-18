@@ -7,6 +7,7 @@ from bot import LOGGER
 
 class Config:
     ALLDEBRID_API_KEY = ""
+    AT_API_URL = ""
     TORBOX_API_KEY = ""
     AS_DOCUMENT = False
     AUTHORIZED_CHATS = ""

@@ -7,6 +7,8 @@ TELEGRAM_HASH = ""
 TG_PROXY = {}
 USER_SESSION_STRING = ""
 CMD_SUFFIX = ""
+# Blank disables mirror_<release_id> download deep links.
+AT_API_URL = ""
 AUTHORIZED_CHATS = ""
 SUDO_USERS = ""
 DATABASE_URL = ""

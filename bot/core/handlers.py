@@ -221,7 +221,12 @@ def add_handlers():
     )
     TgClient.bot.add_handler(
         MessageHandler(
-            start, filters=command(BotCommands.StartCommand, case_sensitive=True)
+            start,
+            # Telegram deep links always issue /start, even with CMD_SUFFIX set.
+            filters=command(
+                list(dict.fromkeys(["start", BotCommands.StartCommand])),
+                case_sensitive=True,
+            ),
         )
     )
     TgClient.bot.add_handler(

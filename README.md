@@ -6,6 +6,24 @@ programming in Python.
 - **TELEGRAM CHANNEL:** https://t.me/mltb_official_channel
 - **TELEGRAM GROUP:** https://t.me/mltb_official_support
 
+### Mirror download deep links
+
+Set the optional downloader configuration (in `config.py` or the environment):
+
+```python
+AT_API_URL = "API_URL"
+```
+
+For `/start mirror_xxxxxx`, the downloader appends only `xxxxxx`, requests that URL,
+and reads the full `magnet_uri`, retaining its display name and trackers. A blank
+setting disables these download links. The API is only contacted after the same
+user/chat authorization check used by `/mirror`. Failed lookups do not start a task.
+Requests time out after 20 seconds and do not follow redirects.
+
+The full magnet enters the existing mirror pipeline with the requesting user's
+identity and upload settings. Both `/start` and the configured suffixed start
+command work when `CMD_SUFFIX` is set. Telegram may ask the user to press Start.
+
 <details>
   <summary><h1>Features</h1></summary>
 
@@ -286,7 +304,7 @@ Fill up rest of the fields. Meaning of each field is discussed below.
 
 - `USER_SESSION_STRING` (`Str`): To download/upload from your telegram account if user is `PREMIUM` and to send rss. To generate session string use this command `python3 generate_string_session.py` after mounting repo folder for sure. **NOTE**: You can't use bot with private message. Use it with superGroup.
 
-- `DATABASE_URL` (`Str`): Your Mongo Database URL (Connection string). Follow this [Create Database](https://github.com/anasty17/test?tab=readme-ov-file#create-database) to create database. Data will be saved in Database: bot settings, users settings, rss data and incomplete tasks. **NOTE**: You can always edit all settings that saved in database from the official site -> (Browse collections). 
+- `DATABASE_URL` (`Str`): Your Mongo Database URL (Connection string). Follow this [Create Database](https://github.com/anasty17/test?tab=readme-ov-file#create-database) to create database. Data will be saved in Database: bot settings, users settings, rss data and incomplete tasks. **NOTE**: You can always edit all settings that saved in database from the official site -> (Browse collections).
 
 - `DATABASE_NAME` (`Str`): Name of the Mongo database. Default is `mltb`.
 
@@ -296,7 +314,7 @@ Fill up rest of the fields. Meaning of each field is discussed below.
 
 - `SUDO_USERS` (`Str`):  Fill user_id of users whom you want to give sudo permission. Separate them by spaces.
 
-- `UPLOAD_PATHS` (`Dict`): Send Dict of keys that have path values. Example: {"path 1": "remote:rclonefolder", "path 2": "gdrive1 id", "path 3": "tg chat id", "path 4": "mt:remote:", "path 5": "b: @username"}. 
+- `UPLOAD_PATHS` (`Dict`): Send Dict of keys that have path values. Example: {"path 1": "remote:rclonefolder", "path 2": "gdrive1 id", "path 3": "tg chat id", "path 4": "mt:remote:", "path 5": "b: @username"}.
 
 - `DEFAULT_UPLOAD` (`Str`): Whether `rc` to upload to `RCLONE_PATH` or `gd` to upload to `GDRIVE_ID` or `bh` to upload to `BUZZHEAVIER_ACCOUNT_ID`. Default is `rc`. Read More [HERE](https://github.com/anasty17/mirror-leech-telegram-bot/tree/master#upload).
 
@@ -347,7 +365,7 @@ see [Using Service Accounts](https://github.com/anasty17/mirror-leech-telegram-b
   5. FFmpeg Variables in last cmd which is metadata ({title}, {title2}, etc...), you can edit them in usetting
   6. Telegram link for small size inputs like photo to set watermark.
 
-- `NAME_SUBSTITUTE` (`Str`): Add word/letter/character/sentence/pattern to remove or replace with other words with sensitive case or without. 
+- `NAME_SUBSTITUTE` (`Str`): Add word/letter/character/sentence/pattern to remove or replace with other words with sensitive case or without.
   **Notes**:
     - Before any character you must add `\BACKSLASH`, those are the characters: `\^$.|?*+()[]{}-`
     * Example: script/code/s | mirror/leech | tea/ /s | clone | cpu/ | \[mltb\]/mltb | \\text\\/text/s
@@ -567,7 +585,7 @@ sudo docker compose logs --follow
 </details>
 
 **IMPORTANT NOTES**:
-1. Flush your machine iptables to use your opened ports with docker from the host network. 
+1. Flush your machine iptables to use your opened ports with docker from the host network.
 
 ```
 # Flush All Rules (Reset iptables)
@@ -975,7 +993,7 @@ machine example.workers.dev password index_password
 Where host is the name of extractor (eg. instagram, Twitch). Multiple accounts of different hosts can be added each
 separated by a new line.
 
-**Yt-dlp**: 
+**Yt-dlp**:
 Authentication using [cookies.txt](https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies) file. CREATE IT IN INCOGNITO TAB.
 
 
